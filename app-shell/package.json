@@ -2,10 +2,12 @@
   "name": "Scrim-s04qgjk",
   "description": "https://scrimba.com/learn-react-router-6-c06/~047",
   "scripts": {
-    "build": "webpack --config webpack.config.js",  
-    "start": "npm run build && webpack serve --mode development --config webpack.config.js" 
+    "build": "webpack --config webpack.config.js",
+    "start": "npm run build && webpack serve --mode development --config webpack.config.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "bootstrap": "^5.3.5",
     "miragejs": "0.1.46",
     "react": "18.2.0",
     "react-dom": "18.2.0",

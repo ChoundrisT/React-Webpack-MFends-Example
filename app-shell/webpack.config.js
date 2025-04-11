@@ -15,10 +15,15 @@ module.exports = {
    module: {
       rules: [
          {
-            test: /\.(js|jsx)$/,
+            test: /\.jsx?$/,
             exclude: /node_modules/,
-            use: 'babel-loader',
-         },
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: ['@babel/preset-env', '@babel/preset-react']
+              }
+            }
+          },
          {
             test: /\.css$/,
             use: ['style-loader', 'css-loader'],
@@ -38,18 +43,44 @@ module.exports = {
          template: './index.html',
       }),
       new ModuleFederationPlugin({
-         runtime: string | false,
+         name: 'app_shell',
+         filename: 'remoteEntry.js',
+         remotes: {
+           app1: 'app1@http://localhost:3001/remoteEntry.js',
+         },
+         exposes: {
+         },
+         shared: {
+         //   ...deps,
+           '@material-ui/core': {
+             singleton: true,
+           },
+           'react-router-dom': {
+             singleton: true,
+             eager:true
+           },
+           react: {
+            singleton: true,
+            requiredVersion: '^18.2.0', 
+            eager: true, 
+            },
+            "react-dom": {
+               singleton: true,
+               requiredVersion: '^18.2.0',
+               eager: true,
+            },
+            },
        }),
    ],
    devServer: {
       static: {
-        directory: path.join(__dirname, 'dist'),  // Directory to serve static files from
+        directory: path.join(__dirname, 'dist'),  
       },
       compress: true,
-      port: 9000,  
-      watchFiles: ['src/**/*', 'public/**/*'],  // Watch these directories for changes
-      hot: true,  // Enable Hot Module Replacement (HMR)
-      open: true,  // Automatically open the browser when the server starts
+      port: 3000,  
+      watchFiles: ['src/**/*', 'public/**/*'],  
+      hot: true,  
+      open: true,  
    },
    mode: 'development', 
 };
