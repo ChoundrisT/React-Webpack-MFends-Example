@@ -5,11 +5,13 @@ import { requireAuth } from "../../utils"
 
 export async function loader({ params, request }) {
     await requireAuth(request)
+    
     return getHostVans(params.id)
 }
 
 export default function HostVanDetail() {
-    const currentVan = useLoaderData()
+    const currentVan = useLoaderData()[0]
+    console.log("getVans in hostVans: ",currentVan)
 
     const activeStyles = {
         fontWeight: "bold",

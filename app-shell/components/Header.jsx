@@ -1,6 +1,7 @@
 import React from "react"
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink , useNavigate } from "react-router-dom"
 import {default as avatar} from "../assets/images/avatar-icon.png"
+import { redirect } from "react-router-dom"
 
 export default function Header() {
     const activeStyles = {
@@ -8,9 +9,12 @@ export default function Header() {
         textDecoration: "underline",
         color: "#161616"
     }
+    const navigate = useNavigate()
+
     
     function fakeLogOut() {
         localStorage.removeItem("loggedin")
+        navigate("/login?message=You must log in first.&redirectTo=/login")
     }
     
     return (
@@ -41,7 +45,7 @@ export default function Header() {
                         className="login-icon"
                     />
                 </Link>
-                <button onClick={fakeLogOut}>X</button>
+                <button onClick={fakeLogOut}>sign out</button>
             </nav>
         </header>
     )
