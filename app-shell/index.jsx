@@ -27,6 +27,8 @@ import HostLayout from "./components/HostLayout"
 import Error from "./components/Error"
 import { requireAuth } from "./utils"
 import './index.css';  
+import { Provider } from 'react-redux';
+import { store } from './src/store'; 
 
 
 // import "./server"
@@ -117,4 +119,7 @@ function App() {
 
 ReactDOM
   .createRoot(document.getElementById('root'))
-  .render(<App />);
+  .render(
+    <Provider store={store}>
+          <App />
+    </Provider>);

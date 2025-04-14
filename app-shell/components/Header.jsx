@@ -2,6 +2,7 @@ import React from "react"
 import { Link, NavLink , useNavigate } from "react-router-dom"
 import {default as avatar} from "../assets/images/avatar-icon.png"
 import { redirect } from "react-router-dom"
+import { useSelector } from "react-redux"; // Import useSelector to access the Redux store
 
 export default function Header() {
     const activeStyles = {
@@ -16,6 +17,8 @@ export default function Header() {
         localStorage.removeItem("loggedin")
         navigate("/login?message=You must log in first.&redirectTo=/login")
     }
+
+    const cartItems = useSelector((state) => state.cart.items); 
     
     return (
         <header>
@@ -45,9 +48,10 @@ export default function Header() {
                     className="position-relative"
                 >
                     Cart
-                    <span className="position-absolute top-0 start-10 translate-middle badge rounded-pill bg-danger">
-                        1
-                    </span>
+                    {cartItems.length >0 && 
+                        <span className="position-absolute top-0 start-10 translate-middle badge rounded-pill bg-danger">
+                        {cartItems.length}
+                    </span>}
                 </NavLink>
                 <NavLink to="login" className="login-link">
                     <img 

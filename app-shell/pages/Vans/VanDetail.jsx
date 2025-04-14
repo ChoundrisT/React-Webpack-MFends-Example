@@ -1,20 +1,33 @@
-import React from "react"
-import { Link, useParams, useLocation, useLoaderData } from "react-router-dom"
-import { getVans } from "../../api"
+// src/components/VanDetail.js
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../src/cartSlice";  // Import the addToCart action
+import { useLoaderData , useNavigate } from "react-router-dom";
+import { getVans } from "../../api";
 
 export function loader({ params }) {
-    return getVans(params.id)
+    return getVans(params.id);
 }
 
 export default function VanDetail() {
-    const location = useLocation()
-    const van = useLoaderData()
+    const location = useLocation();
+    const van = useLoaderData();
+    const dispatch = useDispatch();  // Get the dispatch function
 
     const search = location.state?.search || "";
     const type = location.state?.type || "all";
 
+    const handleAddToCart = () => {
+        console.log("Add to cart clicked");
+        dispatch(addToCart(van));  // Dispatch the van to the cart
+        navigate('/cart');  // Navigate to the /cart page
+    };
+
+    const navigate = useNavigate(); 
+
     return (
-        <div className="van-detail-container" >
+        <div className="van-detail-container">
             <Link
                 to={`..${search}`}
                 relative="path"
@@ -36,18 +49,16 @@ export default function VanDetail() {
                 &larr; <span>Back to {type} vans</span>
             </Link>
 
-
             <div className="van-detail">
-                <img src={van.imageUrl} />
+                <img src={van.imageUrl} style={{height:"300px", width:"auto", objectFit: "contain" }} />
                 <i className={`van-type ${van.type} selected`}>
                     {van.type}
                 </i>
                 <h2>{van.name}</h2>
                 <p className="van-price"><span>${van.price}</span>/day</p>
                 <p>{van.description}</p>
-                <button className="link-button">Rent this van</button>
+                <button className="link-button" onClick={handleAddToCart}>Rent this van</button>
             </div>
-
         </div>
-    )
+    );
 }
