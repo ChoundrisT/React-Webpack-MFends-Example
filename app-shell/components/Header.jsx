@@ -39,12 +39,23 @@ export default function Header() {
                 >
                     Vans
                 </NavLink>
-                <Link to="login" className="login-link">
+                <NavLink 
+                    to="cart"
+                    style={({isActive}) => isActive ? activeStyles : null}
+                    className="position-relative"
+                >
+                    Cart
+                    <span className="position-absolute top-0 start-10 translate-middle badge rounded-pill bg-danger">
+                        1
+                    </span>
+                </NavLink>
+                <NavLink to="login" className="login-link">
                     <img 
                         src={avatar} 
                         className="login-icon"
                     />
-                </Link>
+                </NavLink>
+                
                 <button onClick={fakeLogOut}>sign out</button>
             </nav>
         </header>

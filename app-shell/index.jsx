@@ -9,6 +9,7 @@ import {
 } from "react-router-dom"
 import Home from "./pages/Home"
 import About from "./pages/About"
+import Cart from "./pages/Cart"
 import Vans, { loader as vansLoader } from "./pages/Vans/Vans"
 import VanDetail, { loader as vanDetailLoader } from "./pages/Vans/VanDetail"
 import Dashboard, { loader as dashboardLoader } from "./pages/Host/Dashboard"
@@ -51,6 +52,12 @@ const router = createBrowserRouter(createRoutesFromElements(
       element={<VanDetail />} 
       errorElement={<Error />}
       loader={vanDetailLoader}
+    />
+    <Route 
+      path="cart" 
+      element={<Cart />} 
+      errorElement={<Error />}
+      // loader={cartLoader}
     />
 
     <Route path="host" element={<HostLayout />}>
