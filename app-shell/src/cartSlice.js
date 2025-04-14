@@ -14,7 +14,9 @@ const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       // Remove the van from the cart
-      state.items = state.items.filter(item => item.id !== action.payload.id);
+      state.items = state.items.filter(item => item.id !== action.payload);
+      console.log(action.payload)
+      console.log("State Items: ",state.items)
     },
   },
 });

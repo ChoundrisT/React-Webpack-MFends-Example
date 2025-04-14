@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux"; // Import useSelector to access the Redux store
+import { removeFromCart } from "../src/cartSlice";
+import { useDispatch } from "react-redux";
 
 // Sample van data (this could be part of your state or API)
 const vans = [
@@ -27,6 +29,7 @@ export default function Cart() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [daysBooked, setDaysBooked] = useState(0);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (startDate && endDate) {
@@ -47,10 +50,10 @@ export default function Cart() {
 
     return (
         <div className="cart-page" style={{ padding: "30px 26px" }}>
-            <h1 style={{ fontSize: "2rem", color: "#161616", marginBottom: "20px" }}>Your Cart</h1>
+            <h1 style={{textAlign:"center", fontSize: "2rem", color: "#161616", marginBottom: "20px" }}>Your Cart</h1>
 
             {cartItems.length === 0 ? (
-                <p>Your cart is empty.</p>
+                <p style={{textAlign:"center"}}>Your cart is empty.</p>
             ) : (
                 cartItems.map((item) => (
                     <div
@@ -87,6 +90,24 @@ export default function Cart() {
                             <p style={{ fontWeight: "bold", marginTop: "8px" }}>
                                 Total: ${item.price * (item.quantity || 1)} for {item.quantity || 1} day(s)
                             </p>
+                            <button 
+                              onClick={() => dispatch(removeFromCart(item.id))} 
+                              style={{
+                                 backgroundColor: '#dc3545', 
+                                 color: 'white', 
+                                 border: 'none', 
+                                 padding: '10px 20px', 
+                                 fontSize: '16px', 
+                                 cursor: 'pointer', 
+                                 borderRadius: '5px',
+                                 transition: 'background-color 0.3s ease',
+                              }}
+                              onMouseOver={(e) => e.target.style.backgroundColor = '#c82333'}
+                              onMouseOut={(e) => e.target.style.backgroundColor = '#dc3545'}
+                              >
+                              Remove Van
+                           </button>
+
                         </div>
                     </div>
                 ))
@@ -110,6 +131,7 @@ export default function Cart() {
                     </Link> */}
                 </>
             )}
+            
         </div>
     );
 }

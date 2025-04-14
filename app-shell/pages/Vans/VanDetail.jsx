@@ -1,9 +1,9 @@
 // src/components/VanDetail.js
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../src/cartSlice";  // Import the addToCart action
-import { useLoaderData , useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { getVans } from "../../api";
 
 export function loader({ params }) {
@@ -13,18 +13,23 @@ export function loader({ params }) {
 export default function VanDetail() {
     const location = useLocation();
     const van = useLoaderData();
-    const dispatch = useDispatch();  // Get the dispatch function
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const search = location.state?.search || "";
     const type = location.state?.type || "all";
 
-    const handleAddToCart = () => {
-        console.log("Add to cart clicked");
-        dispatch(addToCart(van));  // Dispatch the van to the cart
-        navigate('/cart');  // Navigate to the /cart page
-    };
+    const isLoggedIn = localStorage.getItem("loggedin");
 
-    const navigate = useNavigate(); 
+    const handleAddToCart = () => {
+        if (isLoggedIn) {
+            console.log("Add to cart clicked");
+            dispatch(addToCart(van));  
+            navigate(`/cart`)
+        } else {
+            navigate('/login')
+        }
+    };
 
     return (
         <div className="van-detail-container">
@@ -33,7 +38,7 @@ export default function VanDetail() {
                 relative="path"
                 className="back-button"
                 style={{
-                    width:"200px",
+                    width: "200px",
                     backgroundColor: 'rgb(255, 142, 122)',
                     color: 'rgb(0,0,0)', 
                     border: 'none',
@@ -50,14 +55,29 @@ export default function VanDetail() {
             </Link>
 
             <div className="van-detail">
-                <img src={van.imageUrl} style={{height:"300px", width:"auto", objectFit: "contain" }} />
+                <img src={van.imageUrl} style={{ height: "300px", width: "auto", objectFit: "contain" }} />
                 <i className={`van-type ${van.type} selected`}>
                     {van.type}
                 </i>
                 <h2>{van.name}</h2>
                 <p className="van-price"><span>${van.price}</span>/day</p>
                 <p>{van.description}</p>
-                <button className="link-button" onClick={handleAddToCart}>Rent this van</button>
+
+                {/* Use a button for the Add to Cart action */}
+                <button
+                    onClick={handleAddToCart}
+                    style={{
+                        backgroundColor: '#FF8E7A',
+                        color: '#000',
+                        padding: '10px 20px',
+                        borderRadius: '5px',
+                        display: 'inline-block',
+                        fontSize: '16px',
+                        cursor: 'pointer',
+                    }}
+                >
+                    Rent this van
+                </button>
             </div>
         </div>
     );

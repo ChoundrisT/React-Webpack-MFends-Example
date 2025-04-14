@@ -59,7 +59,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       path="cart" 
       element={<Cart />} 
       errorElement={<Error />}
-      // loader={cartLoader}
+      // loader={async ({ request }) => await requireAuth(request)}
     />
 
     <Route path="host" element={<HostLayout />}>
