@@ -38,7 +38,7 @@ export default function Vans() {
         const vanElements = displayedVans.map(van => (
             <div key={van.id} className="van-tile">
                 <Link
-                    to={van.id}
+                    to={`${van.id}`}
                     state={{
                         search: `?${searchParams.toString()}`,
                         type: typeFilter
