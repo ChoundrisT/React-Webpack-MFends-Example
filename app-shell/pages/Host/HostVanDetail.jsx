@@ -28,8 +28,8 @@ export default function HostVanDetail() {
     return (
         <section>
             <button onClick={handleBack} className="back-button" style={{
-                backgroundColor: 'rgb(179, 50, 27)', 
-                color: '#fff', 
+                backgroundColor: 'rgb(255, 142, 122)', 
+                color: 'rgb(0,0,0)', 
                 border: 'none', 
                 borderRadius: '5px', 
                 padding: '10px 20px', 

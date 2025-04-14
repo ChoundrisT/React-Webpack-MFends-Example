@@ -14,12 +14,28 @@ export default function VanDetail() {
     const type = location.state?.type || "all";
 
     return (
-        <div className="van-detail-container">
+        <div className="van-detail-container" >
             <Link
                 to={`..${search}`}
                 relative="path"
                 className="back-button"
-            >&larr; <span>Back to {type} vans</span></Link>
+                style={{
+                    width:"200px",
+                    backgroundColor: 'rgb(255, 142, 122)',
+                    color: 'rgb(0,0,0)', 
+                    border: 'none',
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    fontSize: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s ease',
+                }}
+            >
+                &larr; <span>Back to {type} vans</span>
+            </Link>
+
 
             <div className="van-detail">
                 <img src={van.imageUrl} />
