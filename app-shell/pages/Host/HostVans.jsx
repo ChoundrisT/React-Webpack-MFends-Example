@@ -14,7 +14,8 @@ export default function HostVans() {
     function renderVanElements(vans) {
         const hostVansEls = vans.map(van => (
             <Link
-                to={van.id}
+                to={`${van.id}`}
+                state={{ from: window.location.pathname }}
                 key={van.id}
                 className="host-van-link-wrapper"
             >
@@ -28,7 +29,7 @@ export default function HostVans() {
             </Link>
         ))
         return (
-            <div className="host-vans-list">
+            <div className="host-vans-list" >
                 <section>
                     {hostVansEls}
                 </section>

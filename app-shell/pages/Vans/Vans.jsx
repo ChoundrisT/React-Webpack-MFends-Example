@@ -9,7 +9,6 @@ import {
 import { getVans } from "../../api"
 
 export function loader() {
-    console.log("edw",getVans())
     return defer({ vans: getVans() })
 }
 

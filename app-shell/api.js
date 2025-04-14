@@ -9,7 +9,6 @@ export async function getVans(id) {
         }
     }
     const data = await res.json()
-    console.log("Response from db: ",data)
     return data
 }
 
