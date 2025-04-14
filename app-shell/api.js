@@ -1,5 +1,5 @@
 export async function getVans(id) {
-    const url = id ? `/api/vans/${id}` : "/api/vans"
+    const url = id ? `http://localhost:8000/api/vans/${id}` : "http://localhost:8000/api/vans"
     const res = await fetch(url)
     if (!res.ok) {
         throw {
@@ -9,11 +9,12 @@ export async function getVans(id) {
         }
     }
     const data = await res.json()
-    return data.vans
+    console.log("Response from db: ",data)
+    return data
 }
 
 export async function getHostVans(id) {
-    const url = id ? `/api/host/vans/${id}` : "/api/host/vans"
+    const url = id ? `http://localhost:8000/api/host/vans/${id}` : "http://localhost:8000/api/host/vans"
     const res = await fetch(url)
     if (!res.ok) {
         throw {
@@ -23,13 +24,18 @@ export async function getHostVans(id) {
         }
     }
     const data = await res.json()
-    return data.vans
+    console.log("GetHostvans: ",data)
+    return data
 }
 
 export async function loginUser(creds) {
-    const res = await fetch("/api/login",
-        { method: "post", body: JSON.stringify(creds) }
-    )
+    const res = await fetch("http://localhost:8000/api/login", {
+        method: "POST", 
+        body: JSON.stringify(creds),
+        headers: {
+            'Content-Type': 'application/json'  // Make sure to add headers if necessary
+        }
+    })
     const data = await res.json()
 
     if (!res.ok) {
