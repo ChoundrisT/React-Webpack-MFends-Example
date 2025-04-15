@@ -8,12 +8,10 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      // Add the van to the cart
       state.items.push(action.payload);
       console.log(action.payload)
     },
     removeFromCart: (state, action) => {
-      // Remove the van from the cart
       state.items = state.items.filter(item => item.id !== action.payload);
       console.log(action.payload)
       console.log("State Items: ",state.items)
@@ -24,8 +22,6 @@ const cartSlice = createSlice({
   },
 });
 
-// Export the actions
 export const { addToCart, removeFromCart , resetCart } = cartSlice.actions;
 
-// Export the reducer
 export default cartSlice.reducer;

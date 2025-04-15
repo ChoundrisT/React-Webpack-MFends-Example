@@ -1,6 +1,4 @@
 node_modules
-# Ignore everything in dist
 /dist/*
 
-# Do not ignore dist/index.html
 !dist/index.html

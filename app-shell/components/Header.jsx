@@ -2,7 +2,7 @@ import React from "react"
 import { Link, NavLink , useNavigate } from "react-router-dom"
 import {default as avatar} from "../assets/images/avatar-icon.png"
 import { redirect } from "react-router-dom"
-import { useSelector , useDispatch } from "react-redux"; // Import useSelector to access the Redux store
+import { useSelector , useDispatch } from "react-redux"; 
 import { resetCart } from "../src/cartSlice";
 
 export default function Header() {

@@ -2,7 +2,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../src/cartSlice";  // Import the addToCart action
+import { addToCart } from "../../src/cartSlice"; 
 import { useLoaderData } from "react-router-dom";
 import { getVans } from "../../api";
 
@@ -62,8 +62,6 @@ export default function VanDetail() {
                 <h2>{van.name}</h2>
                 <p className="van-price"><span>${van.price}</span>/day</p>
                 <p>{van.description}</p>
-
-                {/* Use a button for the Add to Cart action */}
                 <button
                     onClick={handleAddToCart}
                     style={{
