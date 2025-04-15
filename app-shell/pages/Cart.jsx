@@ -1,137 +1,140 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux"; // Import useSelector to access the Redux store
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../src/cartSlice";
-import { useDispatch } from "react-redux";
-
-// Sample van data (this could be part of your state or API)
-const vans = [
-    {
-        id: "1",
-        name: "Modest Explorer",
-        price: 60,
-        description: "The Modest Explorer is a van designed to get you out of the house and into nature...",
-        type: "simple",
-        hostId: "123",
-        imageUrl: "https://assets.scrimba.com/advanced-react/react-router/modest-explorer.png"
-    },
-];
-
-function getDaysBetween(start, end) {
-    const msPerDay = 1000 * 60 * 60 * 24;
-    return Math.ceil((end - start) / msPerDay);
-}
 
 export default function Cart() {
-    // Get the cart items from Redux store
-    const cartItems = useSelector((state) => state.cart.items); 
+   const cartItems = useSelector((state) => state.cart.items);
+   const dispatch = useDispatch();
 
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [daysBooked, setDaysBooked] = useState(0);
-    const dispatch = useDispatch();
+   const [bookingDates, setBookingDates] = useState({});
 
-    useEffect(() => {
-        if (startDate && endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const days = getDaysBetween(start, end);
-            setDaysBooked(days > 0 ? days : 0);
-        } else {
-            setDaysBooked(0);
-        }
-    }, [startDate, endDate]);
+   const handleDateChange = (id, field, value) => {
+      setBookingDates((prev) => ({
+         ...prev,
+         [id]: {
+            ...prev[id],
+            [field]: value
+         }
+      }));
+   };
 
-   //  // Calculate total price for all items in the cart
-   //  const total = cartItems.reduce((acc, item) => {
-   //      const daysBooked = item.daysBooked || 0;
-   //      return acc + (item.price * daysBooked);
-   //  }, 0);
+   const getDaysBetween = (startDate, endDate) => {
+      if (!startDate || !endDate) return 0;
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const diffTime = end - start;
+      const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return days > 0 ? days : 0;
+   };
 
-    return (
-        <div className="cart-page" style={{ padding: "30px 26px" }}>
-            <h1 style={{textAlign:"center", fontSize: "2rem", color: "#161616", marginBottom: "20px" }}>Your Cart</h1>
+   return (
+      <div className="cart-page" style={{ padding: "30px 26px" }}>
+         <h1 style={{ textAlign: "center", fontSize: "2rem", color: "#161616", marginBottom: "20px" }}>
+            Your Cart
+         </h1>
 
-            {cartItems.length === 0 ? (
-                <p style={{textAlign:"center"}}>Your cart is empty.</p>
-            ) : (
-                cartItems.map((item) => (
-                    <div
-                        key={item.id}
-                        style={{
-                            backgroundColor: "white",
-                            borderRadius: "6px",
-                            padding: "20px",
-                            boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.05)",
-                            marginBottom: "20px",
-                            display: "flex",
-                            alignItems: "center"
-                        }}
-                    >
-                        <img
-                            src={item.imageUrl}
-                            alt={item.name}
+         {cartItems.length === 0 ? (
+            <p style={{ textAlign: "center" }}>Your cart is empty.</p>
+         ) : (
+            cartItems.map((item) => {
+               const dates = bookingDates[item.id] || {};
+               const daysBooked = getDaysBetween(dates.startDate, dates.endDate) || 0;
+               const total = item.price * daysBooked;
+
+               return (
+                  <div
+                  className=""
+                     key={item.id}
+                     style={{
+                        width: '100%',
+                        backgroundColor: "white",
+                        borderRadius: "6px",
+                        padding: "20px",
+                        boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.05)",
+                        marginBottom: "20px",
+                        display: "flex",
+                        alignItems: "center",
+                     }}
+                  >
+                     <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        style={{ width: "auto", height: "390px", marginRight: "20px" }}
+                     />
+                     <div>
+                        <p style={{ color: "#4D4D4D", marginBottom: "12px" }}>
+                           You have the <strong>{item.name}</strong> van in your cart.
+                        </p>
+                        <p style={{ marginBottom: "12px" }}>
+                           <strong>Price per day:</strong> ${item.price}
+                        </p>
+                        <form id="form">
+                           <label htmlFor={`date-from-${item.id}`}>Dates of renting</label><br />
+                           <input
+                              type="date"
+                              id={`date-from-${item.id}`}
+                              name="date-from"
+                              value={dates.startDate || ""}
+                              onChange={(e) =>
+                                 handleDateChange(item.id, "startDate", e.target.value)
+                              }
+                           />
+                           <input
+                              type="date"
+                              id={`date-to-${item.id}`}
+                              name="date-to"
+                              value={dates.endDate || ""}
+                              onChange={(e) =>
+                                 handleDateChange(item.id, "endDate", e.target.value)
+                              }
+                           />
+                        </form>
+
+                        {total != 0 && <p style={{ fontWeight: "bold", marginTop: "8px" }}>
+                           Total: ${total} for {daysBooked} day(s)
+                        </p>}
+                        <div className="d-flex justify-content-between">
+                            {console.log("Days booeked: ",daysBooked)}
+                            <button
+                            disabled ={daysBooked===0}
                             style={{
-                                width: "auto", 
-                                height: "390px",
-                                marginRight: "20px"
+                                backgroundColor: daysBooked ===0 ? "rgb(160, 160, 160)": "#73e73d",
+                                color: "white",
+                                border: "none",
+                                padding: "10px 20px",
+                                fontSize: "16px",
+                                cursor:  daysBooked ===0 ? "not-allowed" :"pointer",
+                                borderRadius: "5px",
+                                transition: "background-color 0.3s ease"
                             }}
-                        />
-                        <div>
-                            <p style={{ color: "#4D4D4D", marginBottom: "12px" }}>
-                                You have the <strong>{item.name}</strong> van in your cart.
-                            </p>
-                            <p style={{ marginBottom: "12px" }}>
-                                <strong>Price per day:</strong> ${item.price}
-                            </p>
-                            <p style={{ marginBottom: "12px" }}>
-                                <strong>Quantity:</strong> {item.quantity || 1}
-                            </p>
-                            <p style={{ fontWeight: "bold", marginTop: "8px" }}>
-                                Total: ${item.price * (item.quantity || 1)} for {item.quantity || 1} day(s)
-                            </p>
-                            <button 
-                              onClick={() => dispatch(removeFromCart(item.id))} 
-                              style={{
-                                 backgroundColor: '#dc3545', 
-                                 color: 'white', 
-                                 border: 'none', 
-                                 padding: '10px 20px', 
-                                 fontSize: '16px', 
-                                 cursor: 'pointer', 
-                                 borderRadius: '5px',
-                                 transition: 'background-color 0.3s ease',
-                              }}
-                              onMouseOver={(e) => e.target.style.backgroundColor = '#c82333'}
-                              onMouseOut={(e) => e.target.style.backgroundColor = '#dc3545'}
-                              >
-                              Remove Van
-                           </button>
-
+                            onMouseOver={(e) => daysBooked !== 0 ? e.target.style.backgroundColor = "#469720" : null}
+                            onMouseOut={(e) => daysBooked !== 0 ? e.target.style.backgroundColor = "#73e73d" : null}
+                            >
+                            Book Van
+                            </button>
+                            <button
+                            onClick={() => dispatch(removeFromCart(item.id))}
+                            style={{
+                                backgroundColor: "#c90909",
+                                color: "white",
+                                border: "none",
+                                padding: "10px 20px",
+                                fontSize: "16px",
+                                cursor: "pointer",
+                                borderRadius: "5px",
+                                transition: "background-color 0.3s ease"
+                            }}
+                            onMouseOver={(e) => (e.target.style.backgroundColor = "#860606")}
+                            onMouseOut={(e) => (e.target.style.backgroundColor = "#c90909")}
+                            >
+                            Remove Van
+                            </button>
                         </div>
-                    </div>
-                ))
-            )}
-
-            {cartItems.length > 0 && (
-                <>
-                    {/* <h3>Total Price: ${total}</h3> */}
-                    {/* <Link
-                        to="/checkout"
-                        style={{
-                            backgroundColor: "#FF8C38",
-                            color: "white",
-                            borderRadius: "5px",
-                            padding: "10px 16px",
-                            textDecoration: "none",
-                            textAlign: "center"
-                        }}
-                    >
-                        Proceed to Checkout
-                    </Link> */}
-                </>
-            )}
-            
-        </div>
-    );
+                     </div>
+                  </div>
+               );
+            })
+         )}
+      </div>
+   );
 }
