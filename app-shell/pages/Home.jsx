@@ -8,9 +8,9 @@ const Button = lazy(() => import("app1/Button").catch(() => ({ default: () => <d
 export default function Home() {
    const navigate = useNavigate(); 
 
-   const handleButtonClick = () => {
-      navigate("/vans"); 
-   };
+   // const handleButtonClick = () => {
+   //    navigate("/vans"); 
+   // };
 
    return (
       <div className="home-container">
@@ -19,7 +19,19 @@ export default function Home() {
          {/* <Link to="vans">Find your van</Link> */}
          {/* <ErrorBoundary> */}
             <Suspense fallback={<div>Loading...</div>}>
-               <Button onClick={handleButtonClick}>Find your van</Button>
+               {/* <Button onClick={handleButtonClick}>Find your van</Button> */}
+               <div style={{cursor:"pointer"}} onClick={() => {
+                     setTimeout(() => {
+                        navigate("/vans");
+                     }, 750);
+                  }}>
+                  <Button
+                     size={90}
+                     color="white"
+                     className="custom-icon"
+                     style={{ margin: 10 }}                  
+                  />
+               </div>
             </Suspense>
          {/* </ErrorBoundary> */}
       </div>

@@ -45,6 +45,23 @@ export default function HostVans() {
                 <Await resolve={dataPromise.vans}>
                     {renderVanElements}
                 </Await>
+                <button style={{
+                    marginLeft: "26px",
+                    padding: "10px 20px",
+                    backgroundColor: "#4CAF50",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    transition: "background-color 0.3s ease"
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#45a049"}
+                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#4CAF50"}
+                    >
+                    Add more vans
+                </button>
+
             </React.Suspense>
         </section>
     )
