@@ -18,11 +18,14 @@ const cartSlice = createSlice({
       console.log(action.payload)
       console.log("State Items: ",state.items)
     },
+    resetCart: (state) => {
+      state.items = [];
+    }
   },
 });
 
 // Export the actions
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart , resetCart } = cartSlice.actions;
 
 // Export the reducer
 export default cartSlice.reducer;

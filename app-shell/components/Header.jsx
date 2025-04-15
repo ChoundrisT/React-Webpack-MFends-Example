@@ -2,7 +2,8 @@ import React from "react"
 import { Link, NavLink , useNavigate } from "react-router-dom"
 import {default as avatar} from "../assets/images/avatar-icon.png"
 import { redirect } from "react-router-dom"
-import { useSelector } from "react-redux"; // Import useSelector to access the Redux store
+import { useSelector , useDispatch } from "react-redux"; // Import useSelector to access the Redux store
+import { resetCart } from "../src/cartSlice";
 
 export default function Header() {
     const activeStyles = {
@@ -10,12 +11,14 @@ export default function Header() {
         textDecoration: "underline",
         color: "#161616"
     }
+    const dispatch = useDispatch();
     const navigate = useNavigate()
 
     
     function fakeLogOut() {
         localStorage.removeItem("loggedin")
-        navigate("/login?message=You must log in first.&redirectTo=/login")
+        dispatch(resetCart())
+        navigate("/login?message=You must log in first.&redirectTo=/cart")
     }
 
     const cartItems = useSelector((state) => state.cart.items); 
