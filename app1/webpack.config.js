@@ -61,4 +61,5 @@ module.exports = {
       template: './public/index.html', // Automatically injects script tags
     }),
   ].filter(Boolean),
+  stats: 'minimal',
 };

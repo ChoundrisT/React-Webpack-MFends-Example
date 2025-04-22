@@ -1,7 +1,7 @@
 // src/components/VanDetail.js
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import { addToCart } from "../../src/cartSlice"; 
 import { useLoaderData } from "react-router-dom";
 import { getVans } from "../../api";
@@ -16,6 +16,8 @@ export default function VanDetail() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const cartItems = useSelector((state) => state.cart.items); 
+    
     const search = location.state?.search || "";
     const type = location.state?.type || "all";
 
@@ -24,8 +26,12 @@ export default function VanDetail() {
     const handleAddToCart = () => {
         if (isLoggedIn) {
             console.log("Add to cart clicked");
+            const isAlreadyInCart = cartItems.some((item) => item.id === van.id);
+            if (isAlreadyInCart) {
+                alert("Van Already in cart")
+            }else{
             dispatch(addToCart(van));  
-            navigate(`/cart`)
+            navigate(`/cart`)}
         } else {
             navigate('/login')
         }

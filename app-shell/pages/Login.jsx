@@ -33,36 +33,41 @@ export default function Login() {
     const message = useLoaderData()
     const navigation = useNavigation()
 
-    return (
-        <div className="login-container">
-            <h1>Sign in to your account</h1>
-            {message && <h6 className="red">{message}</h6>}
-            {errorMessage && <h3 className="red">{errorMessage}</h3>}
+    const isLoggedIn = localStorage.getItem("loggedin")
 
-            <Form 
-                method="post" 
-                className="login-form" 
-                replace
-            >
-                <input
-                    name="email"
-                    type="email"
-                    placeholder="Email address"
-                />
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                />
-                <button
-                    disabled={navigation.state === "submitting"}
+    return (
+        <> {!isLoggedIn &&
+            <div className="login-container">
+                <h1>Sign in to your account</h1>
+                {message && <h6 className="red">{message}</h6>}
+                {errorMessage && <h3 className="red">{errorMessage}</h3>}
+
+                <Form 
+                    method="post" 
+                    className="login-form" 
+                    replace
                 >
-                    {navigation.state === "submitting"
-                        ? "Logging in..."
-                        : "Log in"
-                    }
-                </button>
-            </Form>
-        </div>
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="Email address"
+                    />
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                    />
+                    <button
+                        disabled={navigation.state === "submitting"}
+                    >
+                        {navigation.state === "submitting"
+                            ? "Logging in..."
+                            : "Log in"
+                        }
+                    </button>
+                </Form>
+            </div>}
+            {isLoggedIn && <div>Already Logged In</div>}
+        </>
     )
 }
