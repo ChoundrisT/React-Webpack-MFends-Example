@@ -36,7 +36,7 @@ class User(Base):
     password = Column(String)
     name = Column(String)
 
-# Pydantic models for data validation
+
 class ItemResponse(BaseModel):
     id: int
     name: str
@@ -49,7 +49,7 @@ class ItemResponse(BaseModel):
     class Config:
         from_attributes = True
 
-# Add this Pydantic schema
+
 class UserResponse(BaseModel):
     id: int
     email: str
@@ -59,7 +59,7 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
-# Dependency to get the database session
+
 def get_db():
     db = SessionLocal()
     try:
@@ -67,15 +67,15 @@ def get_db():
     finally:
         db.close()
 
-# FastAPI app setup
+
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Replace with your frontend domain (if it's different)
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"], 
 )
 
 
@@ -86,14 +86,12 @@ def get_user(db: Session = Depends(get_db)):
     print("User creds: ", users)
     return users
 
-# CRUD operation: Get all vans
 @app.get("/api/vans", response_model=list[ItemResponse])
 def get_vans(db: Session = Depends(get_db)):
     vans = db.query(Van).all()
     print("=======--------=========--------=========---------=========-------",vans)
     return vans
 
-# CRUD operation: Get a single van by ID
 @app.get("/api/vans/{van_id}", response_model=ItemResponse)
 def get_van(van_id: int, db: Session = Depends(get_db)):
     van = db.query(Van).filter(Van.id == van_id).first()
@@ -101,7 +99,6 @@ def get_van(van_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Van not found")
     return van
 
-# CRUD operation: Get vans by hostId
 @app.get("/api/host/vans", response_model=list[ItemResponse])
 def get_host_vans(db: Session = Depends(get_db)):
     vans = db.query(Van).filter(Van.hostId == "123").all()
@@ -114,7 +111,7 @@ def get_host_vans_van(van_id: int, db: Session = Depends(get_db)):
     return vans
 
 
-# # CRUD operation: Create a new van
+
 # @app.post("/api/vans", response_model=ItemResponse)
 # def create_van(van: ItemResponse, db: Session = Depends(get_db)):
 #     db_van = Van(**van.dict())
@@ -123,7 +120,7 @@ def get_host_vans_van(van_id: int, db: Session = Depends(get_db)):
 #     db.refresh(db_van)
 #     return db_van
 
-# # CRUD operation: Update a van
+
 # @app.put("/api/vans/{van_id}", response_model=ItemResponse)
 # def update_van(van_id: int, van: ItemResponse, db: Session = Depends(get_db)):
 #     db_van = db.query(Van).filter(Van.id == van_id).first()
@@ -137,7 +134,7 @@ def get_host_vans_van(van_id: int, db: Session = Depends(get_db)):
 #     db.refresh(db_van)
 #     return db_van
 
-# # CRUD operation: Delete a van
+
 # @app.delete("/api/vans/{van_id}", response_model=ItemResponse)
 # def delete_van(van_id: int, db: Session = Depends(get_db)):
 #     db_van = db.query(Van).filter(Van.id == van_id).first()
@@ -146,4 +143,4 @@ def get_host_vans_van(van_id: int, db: Session = Depends(get_db)):
     
 #     db.delete(db_van)
 #     db.commit()
-    return db_van
+#     return db_van

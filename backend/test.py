@@ -6,10 +6,10 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-# Define the database base
+
 Base = declarative_base()
 
-# Define the Van and User models
+
 class Van(Base):
     __tablename__ = 'vans'
     id = Column(Integer, primary_key=True)
@@ -27,15 +27,15 @@ class User(Base):
     password = Column(String)
     name = Column(String)
 
-# Create an SQLite database in memory for testing
+
 engine = create_engine('sqlite:///test.db')
 Base.metadata.create_all(engine)
 
-# Create a session to interact with the database
+
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Seed data function
+
 def seed_data(db_session):
     vans_data = [
         {"id": 1, "name": "Modest Explorer", "price": 60, "description": "The Modest Explorer is a van designed to get you out of the house and into nature...", "imageUrl": "https://assets.scrimba.com/advanced-react/react-router/modest-explorer.png", "type": "simple", "hostId": "123"},
@@ -50,20 +50,19 @@ def seed_data(db_session):
         {"id": 123, "email": "b@b.com", "password": "p123", "name": "Bob"}
     ]
 
-    # Add vans data
+
     for van in vans_data:
         db_session.add(Van(**van))
 
-    # Add users data
+
     for user in users_data:
         db_session.add(User(**user))
 
     db_session.commit()
 
-# Seed the database
+
 seed_data(session)
 
-# Close the session
+
 session.close()
 
-# The database is now saved as 'database.db' in the current directory.
