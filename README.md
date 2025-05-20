@@ -1,4 +1,4 @@
-# 🚐 VanRent - Van Renting Platform
+# 🚐 VanRent - Van Renting Platform Under construction 🚧🚧🚧🚧🚧🚧
 
 VanRent is a modern van rental web application built with a **microfrontend architecture**. It allows users to browse, reserve, and manage van rentals with a seamless experience across different frontend modules. The backend is powered by **FastAPI** and **SQLAlchemy**, while the frontend is built with **React**, **Redux**, and **Webpack Module Federation** for scalable and independent deployments.
 
@@ -113,22 +113,7 @@ The App Shell acts as the "host" and dynamically loads remote microfrontends at 
 
 ---
 
-## 🧪 Testing
 
-- Backend: Pytest
-- Frontend: React Testing Library, Jest
-
-(Coming soon: e2e testing with Playwright or Cypress.)
-
----
-
-## 🌍 Deployment
-
-- Frontend apps can be hosted on Vercel, Netlify, or a custom server.
-- Backend can be deployed using Docker + Gunicorn + Uvicorn workers.
-- CI/CD pipelines (GitHub Actions) can be added for automatic deployment.
-
----
 
 ## 📄 License
 
